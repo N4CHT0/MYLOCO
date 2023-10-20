@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
@@ -23,6 +24,10 @@
     "react-native-svg-transformer": "^1.1.0",
     "react-native-vector-icons": "^10.0.0",
     "react-native-windows": "^0.72.6"
+=======
+    "react": "18.2.0",
+    "react-native": "0.72.5"
+>>>>>>> origin/main
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
