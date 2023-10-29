@@ -17,22 +17,13 @@ const Home = () => {
   return (
     <ScrollView style={styles.page}>
       
-      {/* <View style={searchbar.card}>
-        <TextInput
-          style={searchbar.input}
-          placeholder="Cari"
-        />
-        <View style={searchbar.iconContainer}>
-          <SearchNormal1 size={30} color="#FF8A65" />
-        </View>
-      </View> */}
       <View>
         <ImageBackground source={ImageHeader} style={styles.header}></ImageBackground>
       </View>
 
       <GetStarted />
 
-      <ScrollView horizontal style={styles.slider}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.slider}>
         <Image
           style={slider.image}
           source={{
@@ -152,14 +143,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF', 
   },
   header: {
-    width: windowWidth,
-    height: windowHeight * 0.25,
+    width: windowWidth * 1,
+    height: windowHeight * 0.30,
     paddingHorizontal: 2,
     paddingTop: 18,
   },
   welcome: {
     fontFamily: 'SquadaOne-Regular',
-    fontSize: 18,
+    fontSize: 24,
   },
   text: {
     justifyContent: 'space-between',

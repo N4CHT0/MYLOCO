@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-import { SunFog, Sun1, Star, Moon, User } from 'iconsax-react-native';
+import { MenuBoard, Discover, MedalStar, People } from 'iconsax-react-native';
 
 const getStarted = () => {
   return (
@@ -26,8 +26,8 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2D2C2C',
-    padding: 20, // Decreased padding for a cleaner look
-    borderRadius: 24, // Reduced border radius for a modern look
+    padding: 28, // Decreased padding for a cleaner look
+    borderRadius: 28, // Reduced border radius for a modern look
     shadowColor: '#000',
     marginHorizontal: 0,
     shadowOffset: {
@@ -36,10 +36,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.43,
     shadowRadius: 9.51,
-    elevation: 15,
+    elevation: 20,
     flexDirection: 'column',
-    marginTop: -windowHeight*0.03,
-    alignItems: 'center',
+    marginTop: -windowHeight*0.05,
   },
   title: {
     fontFamily: 'SquadaOne-Regular',
@@ -50,10 +49,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'SquadaOne-Regular',
-    fontSize: 16,
+    fontSize: 12,
     marginTop: 10,
-    marginLeft: 3,
     color: '#D6D6D6',
+    textAlign: 'center',
   },
 });
 
@@ -62,31 +61,33 @@ const category = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 40,
+    alignContent: 'center',
+    alignItems: 'center',
+    gap: 50,
   },
   content: {
     backgroundColor: '#212020',
-    marginVertical: 20,
+    marginVertical: 14,
     width: windowWidth * 0.3,
-    display: 'flex',
     alignItems: 'center',
+    alignContent: 'center',
   },
   iconContainer: {
     backgroundColor: '#212020',
     borderRadius: 50, // Circular icon container
     width: 60, // Fixed width for the icon container
     height: 60, // Fixed height for the icon container
-    display: 'flex',
     alignItems: 'center',
+    alignContent: 'center',
     justifyContent: 'center',
   },
 });
 
 const categories = [
-  { icon: <Moon size={46} color="#D6D6D6" variant="Bold" />, label: 'Beginner' },
-  { icon: <Sun1 size={46} color="#D6D6D6" variant="Bold" />, label: 'Standard' },
-  { icon: <Star size={46} color="#D6D6D6" variant="Bold" />, label: 'Amateur' },
-  { icon: <User size={46} color="#D6D6D6" variant="Bold" />, label: 'Athletic' },
+  { icon: <MedalStar size={40} color="#D6D6D6" variant="Bold" /> , label:"Achievment" },
+  { icon: <MenuBoard size={40} color="#D6D6D6" variant="Bold" /> , label:"Schedule" },
+  { icon: <Discover size={40} color="#D6D6D6" variant="Bold" />  , label:"Events"},
+  { icon: <People size={40} color="#D6D6D6" variant="Bold" /> , label:"Team"},
 ];
 
 export default getStarted;

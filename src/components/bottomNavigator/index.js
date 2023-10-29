@@ -63,12 +63,6 @@ const styles = StyleSheet.create({
       elevation: 0,
       backgroundColor: '#111111',
       borderRadius: 100,
-      height: 100,
-
-        // flexDirection: 'row',
-        // backgroundColor: '#FFFFF',
-        // justifyContent: 'space-between',
-        // paddingHorizontal: 55,
-        // paddingVertical: 14
+      height: 90,
     }
 })
