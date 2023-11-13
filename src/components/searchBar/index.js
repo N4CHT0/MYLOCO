@@ -5,9 +5,9 @@ import { SearchNormal1 } from 'iconsax-react-native';
 const SearchBar = () => {
   return (
     <View style={styles.container}>
-      <SearchNormal1 size="24"  color="#2D2C2C" style={styles.icon}/>
+      <SearchNormal1 size="18"  color="#2D2C2C" style={styles.icon}/>
       <TextInput
-        style={{ marginLeft: 10, flex: 1,marginVertical: 8, }} // Style untuk TextInput
+        style={{ marginLeft: 1, flex: 1,marginVertical: 4, }} // Style untuk TextInput
         placeholder="What do you think ?"
       />
     </View>
@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center' ,
         marginBottom: 12, 
-        borderRadius:35,
+        borderRadius: 20,
         marginTop: -10  ,
         backgroundColor: 'white',
         shadowColor: '#000',
-        marginHorizontal: 0,
+        marginHorizontal: 11,
         shadowOffset: {
         width: 0,
         height: 7,

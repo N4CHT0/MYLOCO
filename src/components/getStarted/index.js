@@ -1,20 +1,32 @@
 import React from 'react';
 import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { MenuBoard, Discover, MedalStar, People } from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const getStarted = () => {
+  const navigation = useNavigation();
+    const handleNavigateToEvents = () => {
+        navigation.navigate('Events');
+    };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Get Started</Text>
       <View style={category.container}>
-        {categories.map((category, index) => (
-          <TouchableOpacity key={index} style={category.content}>
-            <View style={category.iconContainer}>
-              {category.icon}
-            </View>
-            <Text style={styles.text}>{category.label}</Text>
-          </TouchableOpacity>
-        ))}
+        <TouchableOpacity style={{alignItems: 'center', gap: 6}}>
+            <MedalStar size="40" color="#D6D6D6" variant='Bold'/>
+            <Text style={styles.text}>Achievment</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{alignItems: 'center' , gap: 6}}>
+            <MenuBoard size="40" color="#D6D6D6" variant='Bold'/>
+            <Text style={styles.text}>Schedule</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{alignItems: 'center' , gap: 6}} onPress={handleNavigateToEvents}>
+            <Discover size="40" color="#D6D6D6"variant='Bold'/>
+            <Text style={styles.text}>Events</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{alignItems: 'center' , gap: 6}}>
+            <People size="40" color="#D6D6D6" variant='Bold'/>
+            <Text style={styles.text}>Team</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -26,10 +38,10 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2D2C2C',
-    padding: 28, // Decreased padding for a cleaner look
-    borderRadius: 28, // Reduced border radius for a modern look
+    padding: 18, // Decreased padding for a cleaner look
+    borderRadius: 18, // Reduced border radius for a modern look
     shadowColor: '#000',
-    marginHorizontal: 0,
+    marginHorizontal: 4,
     shadowOffset: {
       width: 0,
       height: 7,
@@ -42,17 +54,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'SquadaOne-Regular',
-    fontSize: 24,
+    fontSize: 20,
     color: '#D6D6D6',
-    marginRight: 237,
-    marginBottom: 20,
+    marginLeft: 20,
+    marginBottom: 16
   },
   text: {
     fontFamily: 'SquadaOne-Regular',
-    fontSize: 12,
-    marginTop: 10,
+    fontSize: 14,
     color: '#D6D6D6',
-    textAlign: 'center',
   },
 });
 
@@ -60,34 +70,12 @@ const category = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'center',
     justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    gap: 50,
-  },
-  content: {
-    backgroundColor: '#212020',
-    marginVertical: 14,
-    width: windowWidth * 0.3,
-    alignItems: 'center',
-    alignContent: 'center',
-  },
-  iconContainer: {
-    backgroundColor: '#212020',
-    borderRadius: 50, // Circular icon container
-    width: 60, // Fixed width for the icon container
-    height: 60, // Fixed height for the icon container
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
+    padding: 8,
+    gap: 39,
+    marginRight: 8
   },
 });
-
-const categories = [
-  { icon: <MedalStar size={40} color="#D6D6D6" variant="Bold" /> , label:"Achievment" },
-  { icon: <MenuBoard size={40} color="#D6D6D6" variant="Bold" /> , label:"Schedule" },
-  { icon: <Discover size={40} color="#D6D6D6" variant="Bold" />  , label:"Events"},
-  { icon: <People size={40} color="#D6D6D6" variant="Bold" /> , label:"Team"},
-];
 
 export default getStarted;

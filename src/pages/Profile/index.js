@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
+import {useNavigation} from '@react-navigation/native';
 import { Setting2 } from 'iconsax-react-native';
 
 const Profile = () => {
+  const navigation = useNavigation();
+  const handleNavigateToSettings = () => {
+    navigation.navigate('Settings');
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false} >
-      <View style={styles.header}>
-        <Text style={styles.title}>Profile</Text>
-      </View>
 
       <View style={styles.profileBar}>
         <Image style={styles.image} source={{
@@ -23,7 +25,7 @@ const Profile = () => {
       
        <View style={styles.badgeContainer}>
 
-        <TouchableOpacity>
+       <TouchableOpacity>
           <View style={styles.profileBadge}>
               <Text style={styles.titleBadge}>Edit Profile</Text>
           </View>
@@ -36,11 +38,10 @@ const Profile = () => {
         </TouchableOpacity>
         
         
-        <View style={styles.iconGear}>
-          <TouchableOpacity>
+        <View style={styles.iconGear} >
+          <TouchableOpacity onPress={handleNavigateToSettings}>
           <Setting2 size="28" color="#2D2C2C" variant="Outline"/>
           </TouchableOpacity>
-            
         </View>
        </View>
 

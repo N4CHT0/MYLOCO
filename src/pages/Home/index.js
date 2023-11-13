@@ -5,10 +5,10 @@ import {
   Dimensions,
   Image,
   ScrollView,
-  TextInput,
+  TextInput, 
   StyleSheet,
 } from 'react-native';
-import { ImageBackground } from 'react-native-windows';
+import { ImageBackground } from 'react-native';
 import { ImageHeader } from '../../assets';
 import { GetStarted } from '../../components';
 import { SearchNormal1 } from 'iconsax-react-native';
@@ -16,13 +16,10 @@ import { SearchNormal1 } from 'iconsax-react-native';
 const Home = () => {
   return (
     <ScrollView style={styles.page}>
-      
       <View>
         <ImageBackground source={ImageHeader} style={styles.header}></ImageBackground>
       </View>
-
       <GetStarted />
-
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.slider}>
         <Image
           style={slider.image}
@@ -53,7 +50,6 @@ const Home = () => {
           }}
         ></Image>
       </ScrollView>
-
       <View style={styles.text}>
         <Text style={styles.welcome}>Explore</Text>
       </View>
@@ -74,7 +70,6 @@ const Home = () => {
           </Text>
         </View>
       </View>
-
       <View style={styles.infoRow}>
         <Image
           style={styles.infoImage}
@@ -93,7 +88,6 @@ const Home = () => {
           </Text>
         </View>
       </View>
-
       <View style={styles.infoRow}>
         <Image
           style={styles.infoImage}
@@ -133,10 +127,8 @@ const Home = () => {
     </ScrollView>
   );
 };
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
 const styles = StyleSheet.create({
   page: {
     flex: 1,

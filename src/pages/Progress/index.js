@@ -1,121 +1,47 @@
-import { StyleSheet, Text, View,Image, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, Text, View,ScrollView,TouchableOpacity } from 'react-native'
 import React from 'react'
-import SearchBar from '../../components/searchBar'
 
 const Progress = () => {
   return (
     <ScrollView>
-      <View>
-        <View style={styles.header}>
-          <Text style={styles.title}>Events</Text>
+        <View style={{flexDirection: 'column'}}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={{flexDirection: 'row',justifyContent: 'center', gap: 20,padding: 12, marginTop: -18}}>
+                    <TouchableOpacity>
+                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
+                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18, color: '#D6D6D6' }}>Running</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
+                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18, color: '#D6D6D6' }}>Workouts</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity>
+                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
+                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Activity</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
+                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Healthy</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
+                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Overrall</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                </View>
+            </ScrollView>
         </View>
-        
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <SearchBar /> 
-        </View>
-          <View style={events.container}>
-            
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-            
-            
-          </View>
-          <View style={events.container}>
-            
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-            
-            
-          </View>
-          <View style={events.container}>
-            
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-            
-            
-          </View>
-          <View style={events.container}>
-            
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-            
-            
-          </View>
-
-      </View>
     </ScrollView>
+    
   )
 }
 
 export default Progress
 
-const styles = StyleSheet.create({
-  title: {
-    fontFamily: 'SquadaOne-Regular',
-    fontSize: 24,
-    marginHorizontal: 20,
-    marginVertical: 40,
-    color: 'white'
-  },
-  header: {
-    backgroundColor: '#2D2C2C'
-  },
-})
-
-const events = StyleSheet.create({
-  container:{
-    flexDirection: 'column',
-    marginVertical: 1,
-    alignItems: 'center'
-  },
-  content: {
-    flexDirection: 'row',
-  },
-  image: {
-    width: 190,
-    height: 250,
-    marginHorizontal: 1,
-    borderRadius: 5,
-    resizeMode: 'contain',
-  },
-})
+const styles = StyleSheet.create({})
