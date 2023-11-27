@@ -25,7 +25,7 @@ const Progress = () => {
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <View style={filters.card}>
-                                <Text style={filters.text}>Workouts</Text>
+                                <Text style={filters.text}>Workout</Text>
                             </View>
                         </TouchableOpacity>
                         
