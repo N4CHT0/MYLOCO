@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity } from 'react
 import React from 'react'
 import {useNavigation} from '@react-navigation/native';
 import { Category, DirectSend, Setting2 } from 'iconsax-react-native';
-
 const Profile = () => {
   const navigation = useNavigation();
   const handleNavigateToSettings = () => {
@@ -140,10 +139,7 @@ const Profile = () => {
               }}
             ></Image>
             </View>
-            
-            
           </View>
-
     </ScrollView>
     <TouchableOpacity style={styles.floatingButton}
     onPress={() => navigation.navigate("Post")}>

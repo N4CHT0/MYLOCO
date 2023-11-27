@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import {SearchBar} from '../../components'
 import React, {useState} from 'react'
-import { ArrowLeft } from 'iconsax-react-native';
 import { useNavigation } from "@react-navigation/native";
 const Search = () => {
     const [searchPhrase, setSearchPhrase] = useState("");

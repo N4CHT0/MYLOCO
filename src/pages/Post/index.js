@@ -46,7 +46,7 @@ const Post = () => {
                 </TouchableOpacity>
                 <View style={textInput.board}>
                     <TextInput
-                    placeholder="Write your own story......"
+                    placeholder="Write your own story."
                     value={postData.title}
                     onChangeText={(text) => handleChange("title", text)}
                     placeholderTextColor={'gray'}
@@ -56,7 +56,7 @@ const Post = () => {
                 </View>
                 <View style={textInput.boardDescription}>
                     <TextInput
-                    placeholder="Describe your story....."
+                    placeholder="Describe your story."
                     value={postData.description}
                     onChangeText={(text) => handleChange("description", text)}
                     placeholderTextColor={'gray'}

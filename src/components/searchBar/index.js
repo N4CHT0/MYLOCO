@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Dimensions,Animated,TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { SearchNormal1,Add } from 'iconsax-react-native';
 import { useNavigation } from "@react-navigation/native";
-
 const SearchBar = ({ searchPhrase, setSearchPhrase }) => {
   const navigation = useNavigation();
   const animation = useRef(new Animated.Value(0)).current;
