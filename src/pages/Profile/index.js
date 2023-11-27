@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import {useNavigation} from '@react-navigation/native';
-import { Setting2 } from 'iconsax-react-native';
+import { Category, DirectSend, Setting2 } from 'iconsax-react-native';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -9,7 +9,8 @@ const Profile = () => {
     navigation.navigate('Settings');
   };
   return (
-    <ScrollView showsVerticalScrollIndicator={false} >
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false} >
 
       <View style={styles.profileBar}>
         <Image style={styles.image} source={{
@@ -144,7 +145,11 @@ const Profile = () => {
           </View>
 
     </ScrollView>
-    
+    <TouchableOpacity style={styles.floatingButton}
+    onPress={() => navigation.navigate("Post")}>
+        <DirectSend size="32" color="white"/>
+    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -219,6 +224,23 @@ const styles = StyleSheet.create({
     fontFamily: 'SquadaOne-Regular',
     fontSize: 18,
     textAlign: 'center'
+  },
+  floatingButton: {
+    backgroundColor: '#2D2C2C', 
+    padding: 20,
+    position: 'absolute',
+    bottom: 120,
+    right: 24,
+    borderRadius: 40,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   }
 })
 

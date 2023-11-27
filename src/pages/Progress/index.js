@@ -1,47 +1,82 @@
-import { StyleSheet, Text, View,ScrollView,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,ScrollView,TouchableOpacity,TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
-
+import { Notification, SearchNormal1 } from 'iconsax-react-native'
+import { useNavigation } from "@react-navigation/native";
 const Progress = () => {
-  return (
-    <ScrollView>
-        <View style={{flexDirection: 'column'}}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={{flexDirection: 'row',justifyContent: 'center', gap: 20,padding: 12, marginTop: -18}}>
-                    <TouchableOpacity>
-                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
-                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18, color: '#D6D6D6' }}>Running</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
-                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18, color: '#D6D6D6' }}>Workouts</Text>
-                        </View>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity>
-                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
-                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Activity</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
-                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Healthy</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={{padding: 18, backgroundColor: '#2D2C2C',marginVertical: 20, borderRadius: 18,}}>
-                            <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 18 , color: '#D6D6D6'}}>Overrall</Text>
-                        </View>
-                    </TouchableOpacity>
-                    
+    const navigation = useNavigation();
+    return (
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={{flexDirection: 'row',alignItems: 'center',padding: 20, justifyContent:'flex-end', gap: 28}}>
+                    <Text style={{fontFamily: 'SquadaOne-Regular', fontSize: 22,marginRight: 176}}>MYLOCO</Text>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate("Search")}>
+                        <SearchNormal1 size="27" color="#2D2C2C"/>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate("Mailbox")}>
+                        <Notification size="27" color="#2D2C2C"/>
+                    </TouchableWithoutFeedback>
                 </View>
-            </ScrollView>
-        </View>
-    </ScrollView>
-    
-  )
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={filters.content}>
+                        <TouchableOpacity>
+                            <View style={filters.card}>
+                                <Text style={filters.text}>Running</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={filters.card}>
+                                <Text style={filters.text}>Workouts</Text>
+                            </View>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity>
+                            <View style={filters.card}>
+                                <Text style={filters.text}>Activity</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={filters.card}>
+                                <Text style={filters.text}>Healthy</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={filters.card}>
+                                <Text style={filters.text}>Overrall</Text>
+                            </View>
+                        </TouchableOpacity>
+                        
+                    </View>
+                </ScrollView>
+            </View>
+        </ScrollView>
+    )
 }
 
 export default Progress
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column'
+    }
+})
+
+const filters = StyleSheet.create({
+    content: {
+        flexDirection: 'row',
+        justifyContent: 'center', 
+        gap: 10,
+        padding: 12, 
+        marginTop: -12,
+    },
+    card: {
+        padding: 15, 
+        backgroundColor: '#2D2C2C',
+        marginVertical: 16, 
+        borderRadius: 18,
+    },
+    text: {
+        fontFamily: 'SquadaOne-Regular', 
+        fontSize: 15 , 
+        color: '#D6D6D6'
+    }
+})

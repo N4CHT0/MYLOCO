@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
-import { Home,Profile,Progress,Splash,Settings,Events } from '../pages';
+import { Home,Profile,Progress,Splash,Settings,Search,Events,EventsDetail, Post } from '../pages';
 import { BottomNavigator } from '../components';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,6 +23,9 @@ const Router = () => {
       <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
       <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       <Stack.Screen name="Events" component={Events} options={{ headerShown: false }} />
+      <Stack.Screen name="EventsDetail" component={EventsDetail} options={{ headerShown: false }} />
+      <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+      <Stack.Screen name="Post" component={Post} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
