@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState,useEffect, } from "react";
 import {
     View,
     Text,
@@ -7,52 +7,73 @@ import {
     TouchableOpacity,
     StyleSheet,
     ScrollView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    ActivityIndicator
 } from "react-native";
 import axios from 'axios';
 import { Category, DirectboxSend, Image, Notification, SearchNormal1 } from 'iconsax-react-native'
-
-const Post = () => {
-    const [loading, setLoading] = useState(false);
-        const [postData, setpostData] = useState({
-            title: "",
-            description: "",
-            image: "",
-            totalLikes: 0,
-            totalComments: 0,
-            createdAt: "",
+import FastImage from 'react-native-fast-image';
+const PostEdit = ({route}) => {
+    const {postId} = route.params;
+    const [PostData, setPostData] = useState({
+        title: '',
+        description: '',
+        category: {},
+        totalLikes: 0,
+        totalComments: 0,
+      });
+      const handleChange = (key, value) => {
+        setPostData({
+          ...PostData,
+          [key]: value,
         });
-        const handleUpload = async () => {
-            setLoading(true);
-            try {
-              await axios.post('https://656a074bde53105b0dd80c76.mockapi.io/myloco/post', {
-                  title: postData.title,
-                  description: postData.description,
-                  image,
-                  totalComments: postData.totalComments,
-                  totalLikes: postData.totalLikes,
-                  createdAt: new Date(),
-                })
-                .then(function (response) {
-                  console.log(response);
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-              setLoading(false);
-              navigation.navigate('Profile');
-            } catch (e) {
-              console.log(e);
-            }
-          };
-        const handleChange = (key, value) => {
-            setpostData({
-            ...postData,
-            [key]: value,
+      };
+      const [image, setImage] = useState(null);
+      const navigation = useNavigation();
+      const [loading, setLoading] = useState(true);
+      useEffect(() => {
+        getPostById();
+      }, [postId]);
+    
+      const getPostById = async () => {
+        try {
+          const response = await axios.get(
+            `https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`,
+          );
+          setPostData({
+            title : response.data.title,
+            description : response.data.description,
+            image : response.data.image,
+          })
+        setImage(response.data.image)
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      const handleUpdate = async () => {
+        setLoading(true);
+        try {
+          await axios
+            .put(`https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`, {
+              title: PostData.title,
+              image,
+              description: PostData.description,
+              totalComments: PostData.totalComments,
+              totalLikes: PostData.totalLikes,
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
             });
-        };
-        const [image, setImage] = useState(null);
-        const navigation = useNavigation();
+          setLoading(false);
+          navigation.navigate('Profile');
+        } catch (e) {
+          console.log(e);
+        }
+      };
     return (
         <View style={{flex: 1,}}>
             <View style={{flexDirection: 'row',alignItems: 'center',padding: 20, justifyContent:'flex-end', gap: 28}}>
@@ -73,7 +94,7 @@ const Post = () => {
                 <View style={textInput.board}>
                     <TextInput
                     placeholder="Write your own story."
-                    value={postData.title}
+                    value={PostData.title}
                     onChangeText={(text) => handleChange("title", text)}
                     placeholderTextColor={'gray'}
                     multiline
@@ -83,7 +104,7 @@ const Post = () => {
                 <View style={textInput.boardDescription}>
                     <TextInput
                     placeholder="Describe your story."
-                    value={postData.description}
+                    value={PostData.description}
                     onChangeText={(text) => handleChange("description", text)}
                     placeholderTextColor={'gray'}
                     multiline
@@ -101,16 +122,26 @@ const Post = () => {
                     />
                 </View>
             </ScrollView>
-            <TouchableOpacity onPress={handleUpload} style={styles.buttonUpload}>
+            <TouchableOpacity onPress={handleUpdate} style={styles.buttonUpload}>
                 <DirectboxSend variant="Bold" color="white" size={'30'}/>
             </TouchableOpacity>
+            {loading && (
+            <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="blue" />
+            </View>
+            )}
         </View>
     )
 }
 
-export default Post
+export default PostEdit
 
 const styles = StyleSheet.create({
+    image: {
+      height: 250,
+      width: 'auto',
+      borderRadius: 10,
+    },
     buttonUpload:{
         backgroundColor: '#3693F4',
         padding: 15, 

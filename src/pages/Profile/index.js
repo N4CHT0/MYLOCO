@@ -1,16 +1,51 @@
-import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity } from 'react-native'
-import React from 'react'
-import {useNavigation} from '@react-navigation/native';
-import { Category, DirectSend, Setting2 } from 'iconsax-react-native';
+import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity,RefreshControl,ActivityIndicator } from 'react-native'
+import React, {useState,useCallback} from 'react'
+import {useNavigation,useFocusEffect} from '@react-navigation/native';
+import { Category, DirectSend, Key, Setting2 } from 'iconsax-react-native';
+import {PostItem} from '../../components'
+import axios from 'axios';
 const Profile = () => {
   const navigation = useNavigation();
   const handleNavigateToSettings = () => {
     navigation.navigate('Settings');
   };
+  const [loading, setLoading] = useState(true);
+  const [postData, setPostData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const getDataPost = async () => {
+    try {
+      const response = await axios.get(
+        'https://656a074bde53105b0dd80c76.mockapi.io/myloco/post',
+      );
+      setPostData(response.data);
+      setLoading(false)
+    } catch (error) {
+        console.error(error);
+    }
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getDataPost()
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDataPost();
+    }, [])
+  );
   return (
     <View>
-      <ScrollView showsVerticalScrollIndicator={false} >
-
+      <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        gap: 10,
+        paddingBottom: 90,
+      }} refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.profileBar}>
         <Image style={styles.image} source={{
               uri:
@@ -65,79 +100,14 @@ const Profile = () => {
         </View>
 
       </View>
-
-      <View style={events.container}>
-            
+      
+          <View style={events.container}>    
             <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-            </View>
-
-            <View style={events.content}>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
-              <Image style={events.image} source={{
-                uri:
-                  'https://fitnessvolt.com/wp-content/uploads/2023/05/woman-posing-1024x710.jpg',
-              }}
-            ></Image>
+              {loading ? (
+                <ActivityIndicator size={'large'} color={'black'}/>
+              ) : (
+                postData.map((item, index) => <PostItem item={item} key={index}/>)
+              )}
             </View>
           </View>
     </ScrollView>
@@ -246,10 +216,12 @@ const events = StyleSheet.create({
     marginVertical: 10,
     justifyContent: 'center',
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   content: {
     flexDirection: 'row',
+    flexWrap:'wrap',
+    justifyContent:'center'
   },
   image: {
     width: 128,

@@ -8,5 +8,7 @@ import EventsDetail from './EventsDetail'
 import Search from './Search'
 import Teams from './Teams'
 import Post from './Post'
+import PostDetail from './PostDetail'
+import PostEdit from './PostEdit'
 
-export { Splash, Progress, Profile,Search, Home, Settings,Post,Events,EventsDetail,Teams}
+export { Splash, Progress, Profile,Search, Home, Settings,Post,Events,EventsDetail,Teams,PostDetail,PostEdit}
