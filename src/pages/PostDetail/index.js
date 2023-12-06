@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {formatNumber} from '../../utils/formatNumber';
 import {formatDate} from '../../utils/formatDate';
-import axios from 'axios';
+import firestore from '@react-native-firebase/firestore';
 
 const PostDetail = ({route}) => {
   const {postId} = route.params;
@@ -27,35 +27,49 @@ const PostDetail = ({route}) => {
   };
 
   useEffect(() => {
-    getPostById();
+    const subscriber = firestore()
+      .collection('post')
+      .doc(postId)
+      .onSnapshot(documentSnapshot => {
+        const postData = documentSnapshot.data();
+        if (postData) {
+          console.log('Post data: ', postData);
+          setSelectedPost(postData);
+        } else {
+          console.log(`Post with ID ${postId} not found.`);
+        }
+      });
+    setLoading(false);
+    return () => subscriber();
   }, [postId]);
-
-  const getPostById = async () => {
-    try {
-      const response = await axios.get(
-        `https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`,
-      );
-      setSelectedPost(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const navigateEdit = () => {
     closeActionSheet()
     navigation.navigate('PostEdit', {postId})
   }
   const handleDelete = async () => {
-   await axios.delete(`https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`)
-      .then(() => {
-        closeActionSheet()
-        navigation.navigate('Profile');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+    setLoading(true);
+    try {
+      await firestore()
+        .collection('post')
+        .doc(postId)
+        .delete()
+        .then(() => {
+          console.log('Post deleted!');
+        });
+      if (selectedPost?.image) {
+        const imageRef = storage().refFromURL(selectedPost?.image);
+        await imageRef.delete();
+      }
+      console.log('Post deleted!');
+      closeActionSheet();
+      setSelectedPost(null);
+      setLoading(false)
+      navigation.navigate('Profile');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;

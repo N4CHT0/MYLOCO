@@ -9,9 +9,12 @@ import {
     ScrollView,
     TouchableWithoutFeedback
 } from "react-native";
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 import axios from 'axios';
-import { Category, DirectboxSend, Image, Notification, SearchNormal1 } from 'iconsax-react-native'
-
+import { Category, DirectboxSend, Image, Notification, SearchNormal1,AddSquare,Add } from 'iconsax-react-native'
+import ImagePicker from 'react-native-image-crop-picker';
+import FastImage from 'react-native-fast-image'
 const Post = () => {
     const [loading, setLoading] = useState(false);
         const [postData, setpostData] = useState({
@@ -23,27 +26,29 @@ const Post = () => {
             createdAt: "",
         });
         const handleUpload = async () => {
+            let filename = image.substring(image.lastIndexOf('/') + 1);
+            const extension = filename.split('.').pop();
+            const name = filename.split('.').slice(0, -1).join('.');
+            filename = name + Date.now() + '.' + extension;
+            const reference = storage().ref(`postimages/${filename}`);
             setLoading(true);
             try {
-              await axios.post('https://656a074bde53105b0dd80c76.mockapi.io/myloco/post', {
+                await reference.putFile(image);
+                const url = await reference.getDownloadURL();
+                await firestore().collection('post').add({
                   title: postData.title,
                   description: postData.description,
-                  image,
+                  image: url,
                   totalComments: postData.totalComments,
                   totalLikes: postData.totalLikes,
                   createdAt: new Date(),
-                })
-                .then(function (response) {
-                  console.log(response);
-                })
-                .catch(function (error) {
-                  console.log(error);
                 });
-              setLoading(false);
-              navigation.navigate('Profile');
-            } catch (e) {
-              console.log(e);
-            }
+                setLoading(false);
+                console.log('Post added!');
+                navigation.navigate('Profile');
+              } catch (error) {
+                console.log(error);
+              }
           };
         const handleChange = (key, value) => {
             setpostData({
@@ -52,6 +57,20 @@ const Post = () => {
             });
         };
         const [image, setImage] = useState(null);
+        const handleImagePick = async () => {
+            ImagePicker.openPicker({
+              width: 1920,
+              height: 1080,
+              cropping: true,
+            })
+              .then(image => {
+                console.log(image);
+                setImage(image.path);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          };
         const navigation = useNavigation();
     return (
         <View style={{flex: 1,}}>
@@ -65,11 +84,58 @@ const Post = () => {
                     </TouchableWithoutFeedback>
                 </View>
             <ScrollView>
-                <TouchableOpacity>
-                    <View style={{padding: 120, marginHorizontal: 30,marginVertical: 10}}>
-                        <Image variant="Bold" color="#D1D1D1" size={'90'}/>
+                    {image ? (
+                    <View style={{position: 'relative'}}>
+                        <FastImage
+                        style={{width: '100%', height: 150, borderRadius: 5,marginVertical: 20,}}
+                        source={{
+                            uri: image,
+                            headers: {Authorization: 'someAuthToken'},
+                            priority: FastImage.priority.high,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                        />
+                        <TouchableOpacity
+                        style={{
+                            position: 'absolute',
+                            top: 3,
+                            right: -5,
+                            backgroundColor: '#3693F4',
+                            borderRadius: 25,
+                        }}
+                        onPress={() => setImage(null)}>
+                        <Add
+                            size={20}
+                            variant="Linear"
+                            color= "white"
+                            style={{transform: [{rotate: '45deg'}]}}
+                        />
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+                    ) : (
+                    <TouchableOpacity onPress={handleImagePick}>
+                        <View
+                        style={[
+                            textInput.borderDashed,
+                            {
+                            gap: 10,
+                            paddingVertical: 30,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            },
+                        ]}>
+                        <AddSquare color='gray' variant="Linear" size={42} />
+                        <Text
+                            style={{
+                            fontFamily: 'SquadaOne-Regular',
+                            fontSize: 12,
+                            color: 'gray',
+                            }}>
+                            Upload Thumbnail
+                        </Text>
+                        </View>
+                    </TouchableOpacity>
+                    )}
                 <View style={textInput.board}>
                     <TextInput
                     placeholder="Write your own story."

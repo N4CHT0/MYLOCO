@@ -11,8 +11,9 @@ import {
     ActivityIndicator
 } from "react-native";
 import axios from 'axios';
-import { Category, DirectboxSend, Image, Notification, SearchNormal1 } from 'iconsax-react-native'
+import { Category, DirectboxSend, Image, Notification, SearchNormal1,Add,AddSquare } from 'iconsax-react-native'
 import FastImage from 'react-native-fast-image';
+import firestore from '@react-native-firebase/firestore';
 const PostEdit = ({route}) => {
     const {postId} = route.params;
     const [PostData, setPostData] = useState({
@@ -30,48 +31,73 @@ const PostEdit = ({route}) => {
       };
       const [image, setImage] = useState(null);
       const navigation = useNavigation();
+      const [oldImage, setOldImage] = useState(null);
       const [loading, setLoading] = useState(true);
       useEffect(() => {
-        getPostById();
+        const subscriber = firestore()
+          .collection('post')
+          .doc(postId)
+          .onSnapshot(documentSnapshot => {
+            const postData = documentSnapshot.data();
+            if (postData) {
+              console.log('Post data: ', postData);
+              setPostData({
+                title: postData.title,
+                description: postData.description,
+              });
+              setOldImage(postData.image);
+              setImage(postData.image);
+              setLoading(false);
+            } else {
+              console.log(`Blog with ID ${postId} not found.`);
+            }
+          });
+        setLoading(false);
+        return () => subscriber();
       }, [postId]);
     
-      const getPostById = async () => {
-        try {
-          const response = await axios.get(
-            `https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`,
-          );
-          setPostData({
-            title : response.data.title,
-            description : response.data.description,
-            image : response.data.image,
+      const handleImagePick = async () => {
+        ImagePicker.openPicker({
+          width: 1920,
+          height: 1080,
+          cropping: true,
+        })
+          .then(image => {
+            console.log(image);
+            setImage(image.path);
           })
-        setImage(response.data.image)
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-        }
+          .catch(error => {
+            console.log(error);
+          });
       };
+    
       const handleUpdate = async () => {
         setLoading(true);
+        let filename = image.substring(image.lastIndexOf('/') + 1);
+        const extension = filename.split('.').pop();
+        const name = filename.split('.').slice(0, -1).join('.');
+        filename = name + Date.now() + '.' + extension;
+        const reference = storage().ref(`blogimages/${filename}`);
         try {
-          await axios
-            .put(`https://656a074bde53105b0dd80c76.mockapi.io/myloco/post/${postId}`, {
-              title: PostData.title,
-              image,
-              description: PostData.description,
-              totalComments: PostData.totalComments,
-              totalLikes: PostData.totalLikes,
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          if (image !== oldImage && oldImage) {
+            const oldImageRef = storage().refFromURL(oldImage);
+            await oldImageRef.delete();
+          }
+          if (image !== oldImage) {
+            await reference.putFile(image);
+          }
+          const url =
+            image !== oldImage ? await reference.getDownloadURL() : oldImage;
+          await firestore().collection('blog').doc(blogId).update({
+            title: PostData.title,
+            description: PostData.description,
+            image: url,
+          });
           setLoading(false);
-          navigation.navigate('Profile');
-        } catch (e) {
-          console.log(e);
+          console.log('Post Updated!');
+          navigation.navigate('PostDetail', {postId});
+        } catch (error) {
+          console.log(error);
         }
       };
     return (
@@ -86,11 +112,58 @@ const PostEdit = ({route}) => {
                     </TouchableWithoutFeedback>
                 </View>
             <ScrollView>
-                <TouchableOpacity>
-                    <View style={{padding: 120, marginHorizontal: 30,marginVertical: 10}}>
-                        <Image variant="Bold" color="#D1D1D1" size={'90'}/>
-                    </View>
-                </TouchableOpacity>
+            {image ? (
+          <View style={{position: 'relative'}}>
+            <FastImage
+              style={{width: '100%', height: 127, borderRadius: 5}}
+              source={{
+                uri: image,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: -5,
+                right: -5,
+                backgroundColor: 'white',
+                borderRadius: 25,
+              }}
+              onPress={() => setImage(null)}>
+              <Add
+                size={20}
+                variant="Linear"
+                color= "white"
+                style={{transform: [{rotate: '45deg'}]}}
+              />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={handleImagePick}>
+            <View
+              style={[
+                textInput.borderDashed,
+                {
+                  gap: 10,
+                  paddingVertical: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
+              <AddSquare color="gray" variant="Linear" size={42} />
+              <Text
+                style={{
+                  fontFamily: 'SquadaOne-Regular',
+                  fontSize: 12,
+                  color: "gray",
+                }}>
+                Upload Thumbnail
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
                 <View style={textInput.board}>
                     <TextInput
                     placeholder="Write your own story."

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "478671676516",
+    "project_id": "myloco-de5b6",
+    "storage_bucket": "myloco-de5b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478671676516:android:cfdbc6eb48c08d50ce6b71",
+        "android_client_info": {
+          "package_name": "com.myloco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3XUjGdN-NpotPPuVLRFRlMj1W1km2i18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

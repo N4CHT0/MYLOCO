@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, ScrollView,Image,TouchableOpacity,RefreshControl,ActivityIndicator } from 'react-native'
-import React, {useState,useCallback} from 'react'
+import React, {useState,useCallback,useEffect} from 'react'
 import {useNavigation,useFocusEffect} from '@react-navigation/native';
 import { Category, DirectSend, Key, Setting2 } from 'iconsax-react-native';
 import {PostItem} from '../../components'
-import axios from 'axios';
+import FastImage from 'react-native-fast-image';
+import firestore from '@react-native-firebase/firestore';
+import {formatNumber} from '../../utils/formatNumber';
 const Profile = () => {
   const navigation = useNavigation();
   const handleNavigateToSettings = () => {
@@ -12,30 +14,40 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [postData, setPostData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const getDataPost = async () => {
-    try {
-      const response = await axios.get(
-        'https://656a074bde53105b0dd80c76.mockapi.io/myloco/post',
-      );
-      setPostData(response.data);
-      setLoading(false)
-    } catch (error) {
-        console.error(error);
-    }
-  };
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('post')
+      .onSnapshot(querySnapshot => {
+        const post = [];
+        querySnapshot.forEach(documentSnapshot => {
+          post.push({
+            ...documentSnapshot.data(),
+            id: documentSnapshot.id,
+          });
+        });
+        setPostData(post);
+        setLoading(false);
+      });
+    return () => subscriber();
+  }, []);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      getDataPost()
+      firestore()
+        .collection('post')
+        .onSnapshot(querySnapshot => {
+          const post = [];
+          querySnapshot.forEach(documentSnapshot => {
+            post.push({
+              ...documentSnapshot.data(),
+              id: documentSnapshot.id,
+            });
+          });
+          setPostData(post);
+        });
       setRefreshing(false);
     }, 1500);
   }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      getDataPost();
-    }, [])
-  );
   return (
     <View>
       <ScrollView
@@ -100,7 +112,6 @@ const Profile = () => {
         </View>
 
       </View>
-      
           <View style={events.container}>    
             <View style={events.content}>
               {loading ? (
