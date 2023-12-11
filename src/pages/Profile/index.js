@@ -14,7 +14,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [postData, setPostData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  useEffect(() => {
+  useEffect(( ) => {
     const subscriber = firestore()
       .collection('post')
       .onSnapshot(querySnapshot => {
@@ -110,7 +110,6 @@ const Profile = () => {
           <Text style={styles.statusText}>Achivement</Text>
           <Text style={styles.profileValue}>12</Text>
         </View>
-
       </View>
           <View style={events.container}>    
             <View style={events.content}>

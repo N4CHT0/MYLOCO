@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import axios from 'axios';
 import { Category, DirectboxSend, Image, Notification, SearchNormal1,AddSquare,Add } from 'iconsax-react-native'
 import ImagePicker from 'react-native-image-crop-picker';
 import FastImage from 'react-native-fast-image'

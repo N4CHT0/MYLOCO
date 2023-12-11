@@ -10,5 +10,7 @@ import Teams from './Teams'
 import Post from './Post'
 import PostDetail from './PostDetail'
 import PostEdit from './PostEdit'
+import Login from './Login'
+import Register from './Register'
 
-export { Splash, Progress, Profile,Search, Home, Settings,Post,Events,EventsDetail,Teams,PostDetail,PostEdit}
+export { Splash, Progress, Profile,Search, Home, Settings,Post,Events,EventsDetail,Teams,PostDetail,PostEdit,Login,Register}
