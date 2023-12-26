@@ -10,10 +10,10 @@ import {
     TouchableWithoutFeedback,
     ActivityIndicator
 } from "react-native";
-import axios from 'axios';
 import { Category, DirectboxSend, Image, Notification, SearchNormal1,Add,AddSquare } from 'iconsax-react-native'
 import FastImage from 'react-native-fast-image';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 const PostEdit = ({route}) => {
     const {postId} = route.params;
     const [PostData, setPostData] = useState({
@@ -88,7 +88,7 @@ const PostEdit = ({route}) => {
           }
           const url =
             image !== oldImage ? await reference.getDownloadURL() : oldImage;
-          await firestore().collection('blog').doc(blogId).update({
+          await firestore().collection('post').doc(postId).update({
             title: PostData.title,
             description: PostData.description,
             image: url,

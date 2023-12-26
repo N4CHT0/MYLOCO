@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {formatNumber} from '../../utils/formatNumber';
 import {formatDate} from '../../utils/formatDate';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const PostDetail = ({route}) => {
   const {postId} = route.params;

@@ -95,7 +95,6 @@ const Setting = () => {
           console.error(error);
         }
       };
-      
     return (
         <ScrollView>
             <View style={{flexDirection: 'row', alignItems:'center', padding: 4}}>
@@ -131,7 +130,5 @@ const Setting = () => {
         </ScrollView>
     )
 }
-
 export default Setting
-
 const styles = StyleSheet.create({})
